@@ -1,47 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { getPokemons, makeRequest } from "utils/api";
 
-interface BasePokemon {
-  name: string;
-  url: string;
-}
+import PokemonCard from "../PokemonCard/PokemonCard";
 
-interface Species {
-  name: string;
-  url: string;
-}
+import "./pokemon-list.scss";
 
-interface Sprites {
-  back_default: string;
-  back_female: string;
-  back_shiny: string;
-  back_shiny_female: string;
-  front_default: string;
-  front_female: string;
-  front_shiny: string;
-  front_shiny_female: string;
+interface PokemonListProps {
+  searchTerm: string;
+  selectedPokemon: Pokemon;
+  setSelectedPokemon: (value: Pokemon) => void;
 }
-
-interface Pokemon {
-  abilities: any[];
-  base_experience: number;
-  forms: any[];
-  game_indices: any[];
-  height: number;
-  held_items: any[];
-  id: number;
-  is_default: boolean;
-  location_area_encounters: string;
-  moves: any[];
-  name: string;
-  order: number;
-  past_types: any[];
-  species: Species;
-  sprites: Sprites;
-  other: any;
-  versions: any;
-}
-function PokemonList({ searchTerm = "" }: { searchTerm: string }) {
+function PokemonList({
+  searchTerm = "",
+  selectedPokemon,
+  setSelectedPokemon,
+}: PokemonListProps) {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const filterPokemons = useMemo<Pokemon[]>(
     () =>
@@ -62,25 +35,21 @@ function PokemonList({ searchTerm = "" }: { searchTerm: string }) {
     start();
   }, []);
 
+  const handleSelectPokemon = (value: Pokemon) => {
+    setSelectedPokemon(value);
+  };
+
   return (
-    <ul>
+    <ul className="pokemon-list">
       {filterPokemons.map((pokemon) => (
-        <PokemonCard pokemon={pokemon} key={pokemon.name.toLowerCase()} />
+        <PokemonCard
+          pokemon={pokemon}
+          onSelectPokemon={handleSelectPokemon}
+          key={pokemon.name.toLowerCase()}
+        />
       ))}
     </ul>
   );
 }
 
 export default PokemonList;
-
-function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
-  return (
-    <li>
-      <img
-        src={pokemon.sprites.front_default}
-        alt={`${pokemon.name}'s front sprite`}
-      />
-      {pokemon.name}
-    </li>
-  );
-}

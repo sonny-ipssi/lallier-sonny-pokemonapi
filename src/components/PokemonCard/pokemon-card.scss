@@ -1,0 +1,11 @@
+@import "styles/colors.scss";
+
+.pokemon-card {
+    background-color: $dark-blue;
+    border-radius: 5px;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

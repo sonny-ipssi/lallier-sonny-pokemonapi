@@ -1,0 +1,42 @@
+@import "styles/colors.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  outline-color: $blue;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: $blue;
+  background-color: $darkest-blue;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.field {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  background-color: #294271bf;
+  padding: 0.75em 1.25em;
+  border-radius: 3px;
+
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+ul,
+li {
+  list-style-type: none;
+  padding: 0;
+}
