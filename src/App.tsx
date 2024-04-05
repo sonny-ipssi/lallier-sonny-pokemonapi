@@ -19,7 +19,7 @@ const App = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">All Pokemon</Link>
+            <Link to="/">Liste des Pokemons</Link>
           </li>
           <li>
             <Link to="/my-pokedex">Mon Pokedex</Link>
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/" element={
           <>
             <div className="field">
-              <label htmlFor="search">Rechercher un pokément</label>
+              <label htmlFor="search">Rechercher un Pokemon</label>
               <input
                 onChange={handleChange}
                 placeholder="Pikasiette"
@@ -68,7 +68,7 @@ export default App;
 
 function PokemonDetails({ pokemon }: { pokemon: Pokemon }) {
   const { name, id, height, types } = pokemon;
-
+  console.log(pokemon);
   return (
     <ul>
       <li className="pokemon-id">ID: {id}</li>

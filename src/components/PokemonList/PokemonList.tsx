@@ -27,6 +27,7 @@ function PokemonList({
   useEffect(() => {
     async function start() {
       const { results }: { results: BasePokemon[] } = await getPokemons();
+      console.log(results);
       const pokemons = await Promise.all(
         results.map(async (result) => await makeRequest(result.url))
       );

@@ -1,11 +1,57 @@
 @import "styles/colors.scss";
 
 .pokemon-card {
-    background-color: $dark-blue;
-    border-radius: 5px;
-    padding: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  position: relative; // Pour positionner l'étoile absolument par rapport à la carte
+  background-color: $dark-blue;
+  border-radius: 5px;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden; // Pour s'assurer que rien ne dépasse les bords arrondis
+
+  img {
+    max-width: 100%; // Assure que l'image ne dépasse pas les limites de la carte
+    height: auto; // Maintient le rapport d'aspect de l'image
+  }
+
+  div {
+    color: white; // Pour le nom du Pokémon
+    text-transform: capitalize; // Capitalize the pokemon's name
+  }
+
+  .favorite-btn {
+    position: absolute; // Positionnement absolu par rapport à la carte
+    top: 0.5em; // Espace par rapport au haut de la carte
+    right: 0.5em; // Espace par rapport au côté droit de la carte
+    background: none; // Pas de fond pour le bouton
+    border: none; // Pas de bordure pour le bouton
+    cursor: pointer; // Change le curseur en main pour indiquer la possibilité de cliquer
+    padding: 0; // Aucun padding pour le bouton
+
+    &:focus {
+      outline: none; // Enlève le contour lors de la mise au point
+    }
+
+    svg {
+      fill: #ffde00; // Jaune pour une étoile pleine
+      stroke: #ffde00; // Contour jaune pour une étoile vide
+      width: 1.5em; // Taille de l'étoile
+      height: 1.5em; // Hauteur de l'étoile
+
+      // Pour les étoiles vides, nous utilisons stroke pour donner l'apparence d'une étoile vide
+      &.fa-reg-star {
+        fill: transparent; // Étoile vide n'a pas de remplissage intérieur
+      }
+    }
+  }
+}
+//hover 
+.pokemon-card:hover {
+  cursor: pointer; 
+  background-color: #3d60a2bf;
+    transform: scale(1.05);
+    transition: transform 0.3s;
+
 }

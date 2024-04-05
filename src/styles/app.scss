@@ -8,6 +8,40 @@
   flex-direction: column;
 }
 
+nav {
+  background: #587bbdbf; // Rouge Pokémon
+  padding: 0.5rem 1rem;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0 1rem;
+
+      a {
+        text-decoration: none;
+        color: #ffffff; // Texte blanc
+        font-weight: bold;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #ffde00; // Jaune lors du survol, pour rappeler la couleur de Pikachu
+        }
+
+        &:active {
+          color: #ffde00; // Maintenir la couleur jaune lorsqu'un élément est cliqué
+        }
+      }
+    }
+  }
+}
+
+
 .modal-pokemon-details {
   position: relative;
 
