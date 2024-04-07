@@ -1,35 +1,31 @@
 import styled from '@emotion/styled';
 import Modal from 'components/modal/modal';
 import PokemonList from 'components/PokemonList/PokemonList';
+import SearchBar from 'components/search/search-bar';
 import { AnimatePresence } from 'framer-motion';
-import { ChangeEvent, useState } from 'react';
+import usePokemons from 'hooks/usePokemons';
+import { useState } from 'react';
 
 const HeaderTitle = styled.h1({
   marginBottom: 0,
 });
 
 export default function HomePage() {
-  const [search, setSearch] = useState<string>('');
+  const { pokemons } = usePokemons();
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [filteredPokemons, setFilteredPokemons] = useState<Pokemons>(pokemons);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setSearch(e.target.value);
   return (
     <>
       <HeaderTitle>Pokédex</HeaderTitle>
-      <div className='field'>
-        <label htmlFor='search'>Rechercher un Pokemon</label>
-        <input
-          onChange={handleChange}
-          placeholder='Pikasiette'
-          name='search'
-          id='search'
-          value={search}
-          autoFocus
-        />
-      </div>
+      <SearchBar
+        label='Rechercher un Pokemon'
+        placeholder='Entrez le nom du Pokemon'
+        onSearch={setFilteredPokemons}
+        pokemons={pokemons}
+      />
       <PokemonList
-        searchTerm={search}
+        pokemons={filteredPokemons}
         setSelectedPokemon={setSelectedPokemon}
       />
       <AnimatePresence>

@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
+import PokemonList from 'components/PokemonList/PokemonList';
 import Modal from 'components/modal/modal';
-import PokemonCard from 'components/pokemon-card/pokemon-card';
+import SearchBar from 'components/search/search-bar';
+import { LS_POKEDEX_KEY } from 'constants/local-storage';
 import { styleVars } from 'globalStyles';
 import usePokemons from 'hooks/usePokemons';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
+import { getFavoritePokemons } from 'utils/pokedex';
 
 const ClearPokemonsBtn = styled.button({
   cursor: 'pointer',
@@ -31,68 +34,36 @@ const ClearPokemonsBtn = styled.button({
 
 export default function MyPokedexPage() {
   const { pokemons } = usePokemons();
-  const [myPokemons, setMyPokemons] = useState<Pokemon[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [myPokemons, setMyPokemons] = useState<Pokemons>(() =>
+    getFavoritePokemons(pokemons),
+  );
+  const [filteredPokemons, setFilteredPokemons] =
+    useState<Pokemons>(myPokemons);
 
-  const getMyPokemons = () => {
-    const storedPokemonIds = JSON.parse(
-      localStorage.getItem('MyPokedex') || '[]',
-    );
-    const filteredPokemons = pokemons.filter(
-      (pokemon) =>
-        storedPokemonIds.includes(pokemon.id) &&
-        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-    setMyPokemons(filteredPokemons);
-  };
-
-  useEffect(() => {
-    getMyPokemons();
-  }, [pokemons]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
   const clearMyPokedex = () => {
-    localStorage.removeItem('MyPokedex');
+    localStorage.removeItem(LS_POKEDEX_KEY);
     setMyPokemons([]);
-  };
-
-  const handleSelectPokemon = (pokemon: Pokemon) => {
-    setSelectedPokemon(pokemon);
   };
 
   return (
     <>
       <h1>Mon Pokédex</h1>
-      {myPokemons.length > 0 ||
-      (myPokemons.length == 0 && searchTerm.length > 0) ? (
+      {myPokemons.length > 0 ? (
         <>
-          <div className='field'>
-            <label htmlFor='search'>
-              Rechercher un Pokemon dans mon Pokedex
-            </label>
-            <input
-              onChange={handleChange}
-              placeholder='Entrez le nom du Pokemon'
-              value={searchTerm}
-              name='search'
-              id='search'
-            />
-          </div>
+          <SearchBar
+            label='Rechercher un Pokemon dans mon Pokedex'
+            placeholder='Entrez le nom du Pokemon'
+            pokemons={myPokemons}
+            onSearch={setFilteredPokemons}
+          />
           <ClearPokemonsBtn onClick={clearMyPokedex}>
             Supprimer tous les Pokémon
           </ClearPokemonsBtn>
-          <ul className='pokemon-list'>
-            {myPokemons.map((pokemon) => (
-              <PokemonCard
-                pokemon={pokemon}
-                onSelectPokemon={handleSelectPokemon}
-                key={pokemon.id}
-              />
-            ))}
-          </ul>
+          <PokemonList
+            pokemons={filteredPokemons}
+            setSelectedPokemon={setSelectedPokemon}
+          />
         </>
       ) : (
         <p>

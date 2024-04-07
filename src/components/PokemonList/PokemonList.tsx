@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import PokemonCard from 'components/pokemon-card/pokemon-card';
-import usePokemons from 'hooks/usePokemons';
-import { useMemo } from 'react';
 
 const PokemonListStyle = styled.ul({
   display: 'flex',
@@ -12,29 +10,17 @@ const PokemonListStyle = styled.ul({
 });
 
 interface PokemonListProps {
-  searchTerm: string;
+  pokemons: Pokemons;
   setSelectedPokemon: (value: Pokemon) => void;
 }
-function PokemonList({
-  searchTerm = '',
-  setSelectedPokemon,
-}: PokemonListProps) {
-  const { pokemons } = usePokemons();
-  const filterPokemons = useMemo<Pokemon[]>(
-    () =>
-      pokemons.filter(({ name }) =>
-        name.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-    [pokemons, searchTerm],
-  );
-
+function PokemonList({ pokemons, setSelectedPokemon }: PokemonListProps) {
   const handleSelectPokemon = (value: Pokemon) => {
     setSelectedPokemon(value);
   };
 
   return (
     <PokemonListStyle>
-      {filterPokemons.map((pokemon) => (
+      {pokemons.map((pokemon) => (
         <PokemonCard
           pokemon={pokemon}
           onSelectPokemon={handleSelectPokemon}

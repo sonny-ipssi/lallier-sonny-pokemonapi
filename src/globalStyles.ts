@@ -59,22 +59,6 @@ export const cssReset = css({
     letterSpacing: '0.5px',
   },
 
-  '.field': {
-    width: '350px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  input: {
-    backgroundColor: styleVars.darkBlue,
-    padding: '0.75em 1.25em',
-    borderRadius: styleVars.borderRadius,
-    color: styleVars.lightGray,
-    '&::placeholder': {
-      color: styleVars.lightBlue,
-    },
-  },
-
   'h1, h2, h3, h4, h5, h6': {
     fontWeight: '400',
     margin: '.75em 0',
@@ -95,6 +79,14 @@ export const cssReset = css({
   },
   '::-webkit-scrollbar-thumb:hover': {
     background: styleVars.darkestBlue,
+  },
+
+  '.modal-pokemon-container': {
+    height: '365px',
+    backgroundColor: 'transparent',
+    backgroundImage: "url('http://localhost:3000/pokedex.png')",
+    backgroundPosition: 'center',
+    backgroundSize: 'auto',
   },
 });
 
