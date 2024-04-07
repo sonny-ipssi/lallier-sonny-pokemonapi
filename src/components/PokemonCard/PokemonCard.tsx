@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 import './pokemon-card.scss';
 
 export default function PokemonCard({
@@ -41,6 +41,8 @@ export default function PokemonCard({
       <img
         src={pokemon.sprites.front_default}
         alt={`${pokemon.name}'s front sprite`}
+        height={96}
+        width={96}
       />
       <div>{pokemon.name}</div>
       <button

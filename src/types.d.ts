@@ -46,3 +46,5 @@ interface Type {
     url: string;
   };
 }
+
+type Pokemons = Pokemon[];

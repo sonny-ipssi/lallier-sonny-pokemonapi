@@ -1,6 +1,6 @@
 import PokemonCard from 'components/PokemonCard/PokemonCard';
-import { useEffect, useMemo, useState } from 'react';
-import { getPokemons, makeRequest } from 'utils/api';
+import usePokemons from 'hooks/usePokemons';
+import { useMemo } from 'react';
 import './pokemon-list.scss';
 
 interface PokemonListProps {
@@ -11,7 +11,7 @@ function PokemonList({
   searchTerm = '',
   setSelectedPokemon,
 }: PokemonListProps) {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const { pokemons, isLoading } = usePokemons();
   const filterPokemons = useMemo<Pokemon[]>(
     () =>
       pokemons.filter(({ name }) =>
@@ -20,32 +20,25 @@ function PokemonList({
     [pokemons, searchTerm],
   );
 
-  useEffect(() => {
-    async function start() {
-      const { results }: { results: BasePokemon[] } = await getPokemons();
-      console.log(results);
-      const pokemons = await Promise.all(
-        results.map(async (result) => await makeRequest(result.url)),
-      );
-      setPokemons(pokemons);
-    }
-    start();
-  }, []);
-
   const handleSelectPokemon = (value: Pokemon) => {
     setSelectedPokemon(value);
   };
 
   return (
-    <ul className='pokemon-list'>
-      {filterPokemons.map((pokemon) => (
-        <PokemonCard
-          pokemon={pokemon}
-          onSelectPokemon={handleSelectPokemon}
-          key={pokemon.name.toLowerCase()}
-        />
-      ))}
-    </ul>
+    <>
+      {isLoading && <p>Chargement des pokémons</p>}
+      {!isLoading && pokemons.length !== 0 && (
+        <ul className='pokemon-list'>
+          {filterPokemons.map((pokemon) => (
+            <PokemonCard
+              pokemon={pokemon}
+              onSelectPokemon={handleSelectPokemon}
+              key={pokemon.name.toLowerCase()}
+            />
+          ))}
+        </ul>
+      )}
+    </>
   );
 }
 

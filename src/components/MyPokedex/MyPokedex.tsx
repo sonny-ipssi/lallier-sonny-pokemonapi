@@ -1,23 +1,20 @@
-import { useState, useEffect, useCallback, ChangeEvent } from 'react';
-import { getPokemons, makeRequest } from 'utils/api';
-import PokemonCard from '../PokemonCard/PokemonCard';
+import usePokemons from 'hooks/usePokemons';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Modal from '../Modal/Modal';
+import PokemonCard from '../PokemonCard/PokemonCard';
 import './MyPokedex.scss';
 
 const MyPokedex = () => {
+  const { pokemons } = usePokemons();
   const [myPokemons, setMyPokemons] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
-  const fetchMyPokemons = useCallback(async () => {
+  const getMyPokemons = useCallback(async () => {
     const storedPokemonIds = JSON.parse(
       localStorage.getItem('MyPokedex') || '[]',
     );
-    const { results }: { results: BasePokemon[] } = await getPokemons();
-    const allPokemons = await Promise.all(
-      results.map(async (result) => await makeRequest(result.url)),
-    );
-    const filteredPokemons = allPokemons.filter(
+    const filteredPokemons = pokemons.filter(
       (pokemon) =>
         storedPokemonIds.includes(pokemon.id) &&
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -26,8 +23,8 @@ const MyPokedex = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    fetchMyPokemons();
-  }, [fetchMyPokemons]);
+    getMyPokemons();
+  }, [getMyPokemons]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

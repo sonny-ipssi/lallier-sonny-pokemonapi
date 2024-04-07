@@ -39,6 +39,8 @@ const App = () => {
                     placeholder='Pikasiette'
                     name='search'
                     id='search'
+                    value={search}
+                    autoFocus
                   />
                 </div>
                 <PokemonList
