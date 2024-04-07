@@ -1,7 +1,15 @@
-import PokemonCard from 'components/PokemonCard/PokemonCard';
+import styled from '@emotion/styled';
+import PokemonCard from 'components/pokemon-card/pokemon-card';
 import usePokemons from 'hooks/usePokemons';
 import { useMemo } from 'react';
-import './pokemon-list.scss';
+
+const PokemonListStyle = styled.ul({
+  display: 'flex',
+  gap: '1em',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+});
 
 interface PokemonListProps {
   searchTerm: string;
@@ -11,7 +19,7 @@ function PokemonList({
   searchTerm = '',
   setSelectedPokemon,
 }: PokemonListProps) {
-  const { pokemons, isLoading } = usePokemons();
+  const { pokemons } = usePokemons();
   const filterPokemons = useMemo<Pokemon[]>(
     () =>
       pokemons.filter(({ name }) =>
@@ -25,20 +33,15 @@ function PokemonList({
   };
 
   return (
-    <>
-      {isLoading && <p>Chargement des pokémons</p>}
-      {!isLoading && pokemons.length !== 0 && (
-        <ul className='pokemon-list'>
-          {filterPokemons.map((pokemon) => (
-            <PokemonCard
-              pokemon={pokemon}
-              onSelectPokemon={handleSelectPokemon}
-              key={pokemon.name.toLowerCase()}
-            />
-          ))}
-        </ul>
-      )}
-    </>
+    <PokemonListStyle>
+      {filterPokemons.map((pokemon) => (
+        <PokemonCard
+          pokemon={pokemon}
+          onSelectPokemon={handleSelectPokemon}
+          key={pokemon.name.toLowerCase()}
+        />
+      ))}
+    </PokemonListStyle>
   );
 }
 

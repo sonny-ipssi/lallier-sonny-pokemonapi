@@ -1,6 +1,50 @@
+import styled from '@emotion/styled';
+import { styleVars } from 'globalStyles';
 import { useEffect, useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-import './pokemon-card.scss';
+
+const PokemonCardStyle = styled.li({
+  position: 'relative',
+  cursor: 'pointer',
+  backgroundColor: styleVars.darkBlue,
+  borderRadius: styleVars.borderRadius,
+  padding: '1em',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  transition: '0.15s',
+
+  '&:hover': {
+    backgroundColor: styleVars.blue,
+    transform: 'scale(1.05)',
+  },
+});
+
+const PokemonThumbnail = styled.img({
+  height: 'auto',
+  maxWidth: '100%',
+});
+
+const PokemonName = styled.p({
+  margin: 0,
+  color: styleVars.white,
+});
+
+const FavoriteBtn = styled.button({
+  cursor: 'pointer',
+  position: 'absolute',
+  top: '0.5em',
+  right: '0.5em',
+  backgroundColor: 'transparent',
+  border: 0,
+  padding: 0,
+  '& svg': {
+    height: '1.5em',
+    width: '1.5em',
+    color: styleVars.yellow,
+  },
+});
 
 export default function PokemonCard({
   pokemon,
@@ -34,23 +78,17 @@ export default function PokemonCard({
   };
 
   return (
-    <li
-      className='pokemon-card'
-      onClick={() => onSelectPokemon(pokemon)}
-    >
-      <img
+    <PokemonCardStyle onClick={() => onSelectPokemon(pokemon)}>
+      <PokemonThumbnail
         src={pokemon.sprites.front_default}
         alt={`${pokemon.name}'s front sprite`}
         height={96}
         width={96}
       />
-      <div>{pokemon.name}</div>
-      <button
-        className='favorite-btn'
-        onClick={toggleFavorite}
-      >
+      <PokemonName>{pokemon.name}</PokemonName>
+      <FavoriteBtn onClick={toggleFavorite}>
         {isFavorite ? <FaStar color='yellow' /> : <FaRegStar />}
-      </button>
-    </li>
+      </FavoriteBtn>
+    </PokemonCardStyle>
   );
 }

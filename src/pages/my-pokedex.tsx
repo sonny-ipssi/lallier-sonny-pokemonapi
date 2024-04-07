@@ -1,16 +1,41 @@
+import styled from '@emotion/styled';
+import Modal from 'components/modal/modal';
+import PokemonCard from 'components/pokemon-card/pokemon-card';
+import { styleVars } from 'globalStyles';
 import usePokemons from 'hooks/usePokemons';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Modal from '../Modal/Modal';
-import PokemonCard from '../PokemonCard/PokemonCard';
-import './MyPokedex.scss';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-const MyPokedex = () => {
+const ClearPokemonsBtn = styled.button({
+  cursor: 'pointer',
+  backgroundColor: styleVars.red,
+  color: styleVars.white,
+  border: 'none',
+  padding: '0.5em 1em',
+  margin: '1em 0',
+  borderRadius: styleVars.borderRadius,
+  transition: '0.15s',
+
+  '&:hover': {
+    backgroundColor: styleVars.lightRed,
+  },
+
+  '&:active': {
+    transform: 'translateY(2px)',
+  },
+
+  '&:focus': {
+    outline: 'none',
+    boxShadow: `0 0 0 2px ${styleVars.darkRed}`,
+  },
+});
+
+export default function MyPokedexPage() {
   const { pokemons } = usePokemons();
   const [myPokemons, setMyPokemons] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
-  const getMyPokemons = useCallback(async () => {
+  const getMyPokemons = () => {
     const storedPokemonIds = JSON.parse(
       localStorage.getItem('MyPokedex') || '[]',
     );
@@ -20,11 +45,11 @@ const MyPokedex = () => {
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setMyPokemons(filteredPokemons);
-  }, [searchTerm]);
+  };
 
   useEffect(() => {
     getMyPokemons();
-  }, [getMyPokemons]);
+  }, [pokemons]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -39,8 +64,8 @@ const MyPokedex = () => {
   };
 
   return (
-    <div>
-      <h1>Mon Pokedex</h1>
+    <>
+      <h1>Mon Pokédex</h1>
       {myPokemons.length > 0 ||
       (myPokemons.length == 0 && searchTerm.length > 0) ? (
         <>
@@ -56,12 +81,9 @@ const MyPokedex = () => {
               id='search'
             />
           </div>
-          <button
-            onClick={clearMyPokedex}
-            className='clear-pokedex'
-          >
+          <ClearPokemonsBtn onClick={clearMyPokedex}>
             Supprimer tous les Pokémon
-          </button>
+          </ClearPokemonsBtn>
           <ul className='pokemon-list'>
             {myPokemons.map((pokemon) => (
               <PokemonCard
@@ -88,11 +110,10 @@ const MyPokedex = () => {
           <PokemonDetails pokemon={selectedPokemon} />
         </Modal>
       )}
-    </div>
+    </>
   );
-};
+}
 
-export default MyPokedex;
 function PokemonDetails({ pokemon }: { pokemon: Pokemon }) {
   const { name, id, height, types } = pokemon;
 

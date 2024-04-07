@@ -60,7 +60,8 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
         isLoading,
       }}
     >
-      {children}
+      {isLoading && <p>Chargement des pokémons</p>}
+      {!isLoading && children}
     </PokemonContext.Provider>
   );
 }

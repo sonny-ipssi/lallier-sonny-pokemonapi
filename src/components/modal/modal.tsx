@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { ReactNode, useId } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { GrClose } from 'react-icons/gr';
-
-import './modal.scss';
+import ModalBody from './modal-body';
+import ModalContainer from './modal-container';
+import { CloseButton, ModalHeader } from './modal-header';
+import ModalWrapper from './modal-wrapper';
 
 interface ModalProps {
   close?: (...args: any) => void | Promise<void>;
@@ -28,57 +28,45 @@ export default function Modal({
   containerClass = '',
 }: ModalProps) {
   useEffect(() => {
-    // Scroll to top when the modal is opened
     window.scrollTo(0, 0);
-
-    // Disable body scroll
     document.body.style.overflow = 'hidden';
-
-    // Re-enable scrolling when the modal is closed
     return () => {
       document.body.style.overflow = '';
     };
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
 
-  const handleWrapperClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      close && close();
-    }
-  };
+  const handleWrapperClick = (event: React.MouseEvent<HTMLDivElement>) =>
+    event.target === event.currentTarget && close && close();
 
   return createPortal(
-    <motion.div
-      className={'modal-wrapper'}
+    <ModalWrapper
       onClick={handleWrapperClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.1, delay: 0.1 } }}
     >
-      <motion.div
-        className={`modal-container${containerClass ? ` ${containerClass}` : ''}`}
+      <ModalContainer
+        className={containerClass ? ` ${containerClass}` : ''}
         style={{ padding }}
         initial={{ opacity: 0, y: '-6em' }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: '-6em', transition: { duration: 0.1 } }}
       >
         {!noHeader && (
-          <div className={'modal-header'}>
+          <ModalHeader>
             <h3>{title}</h3>
             {showCloseBtn && (
-              <button
-                onClick={close}
-                className={'btn-close reset'}
-              >
+              <CloseButton onClick={close}>
                 <GrClose />
-              </button>
+              </CloseButton>
             )}
-          </div>
+          </ModalHeader>
         )}
-        <div className={`modal-body${bodyClass ? ` ${bodyClass}` : ''}`}>
+        <ModalBody className={bodyClass ? ` ${bodyClass}` : ''}>
           {children}
-        </div>
-      </motion.div>
-    </motion.div>,
+        </ModalBody>
+      </ModalContainer>
+    </ModalWrapper>,
     document.body,
   );
 }
