@@ -1,27 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
-import { getPokemons, makeRequest } from "utils/api";
-
-import PokemonCard from "../PokemonCard/PokemonCard";
-
-import "./pokemon-list.scss";
+import PokemonCard from 'components/PokemonCard/PokemonCard';
+import { useEffect, useMemo, useState } from 'react';
+import { getPokemons, makeRequest } from 'utils/api';
+import './pokemon-list.scss';
 
 interface PokemonListProps {
   searchTerm: string;
-  selectedPokemon: Pokemon;
   setSelectedPokemon: (value: Pokemon) => void;
 }
 function PokemonList({
-  searchTerm = "",
-  selectedPokemon,
+  searchTerm = '',
   setSelectedPokemon,
 }: PokemonListProps) {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const filterPokemons = useMemo<Pokemon[]>(
     () =>
       pokemons.filter(({ name }) =>
-        name.toLowerCase().includes(searchTerm.toLowerCase())
+        name.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
-    [pokemons, searchTerm]
+    [pokemons, searchTerm],
   );
 
   useEffect(() => {
@@ -29,7 +25,7 @@ function PokemonList({
       const { results }: { results: BasePokemon[] } = await getPokemons();
       console.log(results);
       const pokemons = await Promise.all(
-        results.map(async (result) => await makeRequest(result.url))
+        results.map(async (result) => await makeRequest(result.url)),
       );
       setPokemons(pokemons);
     }
@@ -41,7 +37,7 @@ function PokemonList({
   };
 
   return (
-    <ul className="pokemon-list">
+    <ul className='pokemon-list'>
       {filterPokemons.map((pokemon) => (
         <PokemonCard
           pokemon={pokemon}

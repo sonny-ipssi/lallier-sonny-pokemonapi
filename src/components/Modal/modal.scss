@@ -1,51 +1,51 @@
-@import "styles/colors.scss";
+@import 'src/styles/colors.scss';
 
 .modal-wrapper {
-    z-index: 9999;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba($black, 0.5);
-    backdrop-filter: blur(0.25em);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba($black, 0.5);
+  backdrop-filter: blur(0.25em);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .modal-container {
-    background: $dark-blue;
-    min-width: 500px;
-    margin-top: 6em;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    box-shadow: 0 0 1em 0px rgba($black, 0.25);
+  background: $dark-blue;
+  min-width: 500px;
+  margin-top: 6em;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 0 1em 0px rgba($black, 0.25);
 }
 
 .modal-header {
-    width: 100%;
-    margin-bottom: 1.5em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    & button.btn-close {
-        color: $blue;
-        background-color: transparent;
-        border: 0;
-        padding: 0;
-        margin: 0;
-    }
+  & button.btn-close {
+    color: $blue;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .modal-body {
-    width: 100%;
-    display: flex;
-    flex: 1;
-    align-items: center;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
 }

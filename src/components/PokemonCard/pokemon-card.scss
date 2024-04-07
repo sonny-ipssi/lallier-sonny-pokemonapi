@@ -1,4 +1,4 @@
-@import "styles/colors.scss";
+@import 'src/styles/colors.scss';
 
 .pokemon-card {
   position: relative; // Pour positionner l'étoile absolument par rapport à la carte
@@ -47,11 +47,10 @@
     }
   }
 }
-//hover 
+//hover
 .pokemon-card:hover {
-  cursor: pointer; 
+  cursor: pointer;
   background-color: #3d60a2bf;
-    transform: scale(1.05);
-    transition: transform 0.3s;
-
+  transform: scale(1.05);
+  transition: transform 0.3s;
 }
