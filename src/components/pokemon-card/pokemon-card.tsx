@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { styleVars } from 'globalStyles';
 import { useEffect, useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
+import '../../styles/pokeball-animation.css';
 
 const PokemonCardStyle = styled.li({
   position: 'relative',
@@ -54,6 +55,7 @@ export default function PokemonCard({
   onSelectPokemon: (value: Pokemon) => void;
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [caught, setCaught] = useState(false);
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('MyPokedex') || '[]');
@@ -74,17 +76,26 @@ export default function PokemonCard({
       const newFavorites = [...favorites, pokemon.id];
       localStorage.setItem('MyPokedex', JSON.stringify(newFavorites));
       setIsFavorite(true);
+      setCaught(true);
+
+      setTimeout(() => {
+        setCaught(false);
+      }, 7000);
     }
   };
 
   return (
     <PokemonCardStyle onClick={() => onSelectPokemon(pokemon)}>
-      <PokemonThumbnail
-        src={pokemon.sprites.front_default}
-        alt={`${pokemon.name}'s front sprite`}
-        height={96}
-        width={96}
-      />
+      {caught ? (
+        <div className='pokeball'></div>
+      ) : (
+        <PokemonThumbnail
+          src={pokemon.sprites.front_default}
+          alt={`${pokemon.name}'s front sprite`}
+          height={96}
+          width={96}
+        />
+      )}
       <PokemonName>{pokemon.name}</PokemonName>
       <FavoriteBtn onClick={toggleFavorite}>
         {isFavorite ? <FaStar color='yellow' /> : <FaRegStar />}
