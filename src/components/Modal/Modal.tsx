@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { ReactNode, useId } from "react";
-import { createPortal } from "react-dom";
-import { GrClose } from "react-icons/gr";
+import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { ReactNode, useId } from 'react';
+import { createPortal } from 'react-dom';
+import { GrClose } from 'react-icons/gr';
 
-import "./modal.scss";
+import './modal.scss';
 
 interface ModalProps {
   close?: (...args: any) => void | Promise<void>;
@@ -23,14 +23,14 @@ export default function Modal({
   children,
   showCloseBtn = true,
   noHeader = false,
-  padding = "1em 1.5em",
-  bodyClass = "",
-  containerClass = "",
+  padding = '1em 1.5em',
+  bodyClass = '',
+  containerClass = '',
 }: ModalProps) {
   useEffect(() => {
     // Scroll to top when the modal is opened
     window.scrollTo(0, 0);
-    
+
     // Disable body scroll
     document.body.style.overflow = 'hidden';
 
@@ -48,7 +48,7 @@ export default function Modal({
 
   return createPortal(
     <motion.div
-      className={"modal-wrapper"}
+      className={'modal-wrapper'}
       onClick={handleWrapperClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -62,10 +62,13 @@ export default function Modal({
         exit={{ opacity: 0, y: '-6em', transition: { duration: 0.1 } }}
       >
         {!noHeader && (
-          <div className={"modal-header"}>
+          <div className={'modal-header'}>
             <h3>{title}</h3>
             {showCloseBtn && (
-              <button onClick={close} className={"btn-close reset"}>
+              <button
+                onClick={close}
+                className={'btn-close reset'}
+              >
                 <GrClose />
               </button>
             )}
@@ -76,6 +79,6 @@ export default function Modal({
         </div>
       </motion.div>
     </motion.div>,
-    document.body
+    document.body,
   );
 }

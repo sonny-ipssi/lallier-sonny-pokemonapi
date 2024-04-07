@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa"; 
-import "./pokemon-card.scss";
+import { useState, useEffect } from 'react';
+import { FaStar, FaRegStar } from 'react-icons/fa';
+import './pokemon-card.scss';
 
 export default function PokemonCard({
   pokemon,
@@ -19,7 +19,7 @@ export default function PokemonCard({
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation(); // Pour éviter que l'event de clic se propage au parent (li)
     const favorites = JSON.parse(localStorage.getItem('MyPokedex') || '[]');
-    
+
     if (favorites.includes(pokemon.id)) {
       // Retirer des favoris
       const newFavorites = favorites.filter((id: number) => id !== pokemon.id);
@@ -34,14 +34,20 @@ export default function PokemonCard({
   };
 
   return (
-    <li className="pokemon-card" onClick={() => onSelectPokemon(pokemon)}>
+    <li
+      className='pokemon-card'
+      onClick={() => onSelectPokemon(pokemon)}
+    >
       <img
         src={pokemon.sprites.front_default}
         alt={`${pokemon.name}'s front sprite`}
       />
       <div>{pokemon.name}</div>
-      <button className="favorite-btn" onClick={toggleFavorite}>
-        {isFavorite ? <FaStar color="yellow" /> : <FaRegStar />}
+      <button
+        className='favorite-btn'
+        onClick={toggleFavorite}
+      >
+        {isFavorite ? <FaStar color='yellow' /> : <FaRegStar />}
       </button>
     </li>
   );
