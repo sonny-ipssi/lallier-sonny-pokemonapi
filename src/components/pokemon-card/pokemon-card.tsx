@@ -37,10 +37,9 @@ const FavoriteBtn = styled.button({
   backgroundColor: 'transparent',
   border: 0,
   padding: 0,
-  '& svg': {
+  '& img': {
     height: '1.5em',
     width: '1.5em',
-    color: styleVars.yellow,
   },
 });
 
