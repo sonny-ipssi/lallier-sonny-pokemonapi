@@ -81,12 +81,60 @@ export const cssReset = css({
     background: styleVars.darkestBlue,
   },
 
+  '& .modal-pokemon-details': {
+    position: 'relative',
+
+    alignItems: 'start',
+    flexDirection: 'row',
+
+    '& img': {
+      position: 'absolute',
+      top: '15px',
+      left: '20px',
+      height: 'auto',
+      width: '170px',
+    },
+
+    '& .pokemon-name': {
+      position: 'absolute',
+      top: '40px',
+      left: '265px',
+      textTransform: 'uppercase',
+      fontSize: '1.5em',
+    },
+
+    '& .pokemon-id': {
+      position: 'absolute',
+      bottom: '20px',
+      left: '68px',
+      textTransform: 'uppercase',
+      fontSize: '1em',
+      color: styleVars.black,
+    },
+
+    '& .pokemon-type': {
+      position: 'absolute',
+      bottom: '30px',
+      left: '260px',
+      textTransform: 'uppercase',
+      fontSize: '1em',
+    },
+
+    '& .pokemon-height': {
+      position: 'absolute',
+      bottom: '30px',
+      left: '346px',
+      textTransform: 'uppercase',
+      fontSize: '0.85em',
+    },
+  },
+
   '.modal-pokemon-container': {
     height: '365px',
-    backgroundColor: 'transparent',
-    backgroundImage: "url('http://localhost:3000/pokedex.png')",
-    backgroundPosition: 'center',
-    backgroundSize: 'auto',
+    backgroundColor: 'transparent !important',
+    backgroundImage: "url('http://localhost:3000/pokedex.png') !important",
+    backgroundPosition: 'center !important',
+    backgroundSize: 'auto !important',
   },
 });
 
