@@ -43,6 +43,14 @@ const FavoriteBtn = styled.button({
   },
 });
 
+const PokemonId = styled.p({
+  position: 'absolute',
+  top: '0.5em',
+  left: '0.5em',
+  color: styleVars.lightGray,
+  fontSize: '0.8em',
+});
+
 const POKEBALL_ANIMATION_DELAY = 7_000;
 
 export default function PokemonCard({
@@ -76,7 +84,10 @@ export default function PokemonCard({
           width={96}
         />
       )}
-      <PokemonName>{pokemon.name}</PokemonName>
+      <PokemonName>
+        {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+      </PokemonName>
+      <PokemonId>#{pokemon.id.toString().padStart(3, '0')}</PokemonId>
       <FavoriteBtn onClick={toggleFavorite}>
         <img
           src='/pokeball.png'
