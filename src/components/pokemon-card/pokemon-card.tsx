@@ -48,6 +48,8 @@ const FavoriteBtn = styled.button({
   },
 });
 
+const POKEBALL_ANIMATION_DELAY = 7_000;
+
 export default function PokemonCard({
   pokemon,
   onSelectPokemon,
@@ -60,8 +62,11 @@ export default function PokemonCard({
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setTimeout(() => setCaught(false), 7000);
     toggleStatus(pokemon);
+    if (!pokemon.favorite) {
+      setCaught(true);
+      setTimeout(() => setCaught(false), POKEBALL_ANIMATION_DELAY);
+    }
   };
 
   return (
