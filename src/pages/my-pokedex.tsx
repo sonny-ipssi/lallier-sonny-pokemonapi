@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import PokemonList from 'components/PokemonList/PokemonList';
 import Modal from 'components/modal/modal';
+import PokemonList from 'components/pokemon-list/pokemon-list';
 import SearchBar from 'components/search/search-bar';
-import { LS_POKEDEX_KEY } from 'constants/local-storage';
+import { AnimatePresence } from 'framer-motion';
 import { styleVars } from 'globalStyles';
 import usePokemons from 'hooks/usePokemons';
-import { useState } from 'react';
-import { getFavoritePokemons } from 'utils/pokedex';
+import { useMemo, useState } from 'react';
 
 const ClearPokemonsBtn = styled.button({
   cursor: 'pointer',
@@ -33,31 +32,28 @@ const ClearPokemonsBtn = styled.button({
 });
 
 export default function MyPokedexPage() {
-  const { pokemons } = usePokemons();
+  const { pokemons, clearPokemons } = usePokemons();
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
-  const [myPokemons, setMyPokemons] = useState<Pokemons>(() =>
-    getFavoritePokemons(pokemons),
+  const favoritesPokemons = useMemo(
+    () => pokemons.filter((p) => p.favorite),
+    [pokemons],
   );
-  const [filteredPokemons, setFilteredPokemons] =
-    useState<Pokemons>(myPokemons);
 
-  const clearMyPokedex = () => {
-    localStorage.removeItem(LS_POKEDEX_KEY);
-    setMyPokemons([]);
-  };
+  const [filteredPokemons, setFilteredPokemons] =
+    useState<Pokemons>(favoritesPokemons);
 
   return (
     <>
       <h1>Mon Pokédex</h1>
-      {myPokemons.length > 0 ? (
+      {favoritesPokemons.length > 0 ? (
         <>
           <SearchBar
             label='Rechercher un Pokemon dans mon Pokedex'
             placeholder='Entrez le nom du Pokemon'
-            pokemons={myPokemons}
+            pokemons={favoritesPokemons}
             onSearch={setFilteredPokemons}
           />
-          <ClearPokemonsBtn onClick={clearMyPokedex}>
+          <ClearPokemonsBtn onClick={clearPokemons}>
             Supprimer tous les Pokémon
           </ClearPokemonsBtn>
           <PokemonList
@@ -71,16 +67,18 @@ export default function MyPokedexPage() {
           faire apparaître dans ton Pokedex !
         </p>
       )}
-      {selectedPokemon && (
-        <Modal
-          close={() => setSelectedPokemon(null)}
-          bodyClass='modal-pokemon-details'
-          containerClass='modal-pokemon-container'
-        >
-          <img src={selectedPokemon.sprites.front_default} />
-          <PokemonDetails pokemon={selectedPokemon} />
-        </Modal>
-      )}
+      <AnimatePresence>
+        {selectedPokemon && (
+          <Modal
+            close={() => setSelectedPokemon(null)}
+            bodyClass='modal-pokemon-details'
+            containerClass='modal-pokemon-container'
+          >
+            <img src={selectedPokemon.sprites.front_default} />
+            <PokemonDetails pokemon={selectedPokemon} />
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 }

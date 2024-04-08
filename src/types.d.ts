@@ -37,6 +37,7 @@ interface Pokemon {
   sprites: Sprites;
   other: any;
   versions: any;
+  favorite: boolean;
 }
 
 interface Type {

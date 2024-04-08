@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Modal from 'components/modal/modal';
-import PokemonList from 'components/PokemonList/PokemonList';
+import PokemonList from 'components/pokemon-list/pokemon-list';
 import SearchBar from 'components/search/search-bar';
 import { AnimatePresence } from 'framer-motion';
 import usePokemons from 'hooks/usePokemons';
@@ -20,7 +20,7 @@ export default function HomePage() {
       <HeaderTitle>Pokédex</HeaderTitle>
       <SearchBar
         label='Rechercher un Pokemon'
-        placeholder='Entrez le nom du Pokemon'
+        placeholder='Pikasiette'
         onSearch={setFilteredPokemons}
         pokemons={pokemons}
       />

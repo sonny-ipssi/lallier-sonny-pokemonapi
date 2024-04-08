@@ -24,7 +24,7 @@ function PokemonList({ pokemons, setSelectedPokemon }: PokemonListProps) {
         <PokemonCard
           pokemon={pokemon}
           onSelectPokemon={handleSelectPokemon}
-          key={pokemon.name.toLowerCase()}
+          key={pokemon.id}
         />
       ))}
     </PokemonListStyle>

@@ -1,17 +1,20 @@
 import { BASE_URL } from 'constants/endpoints';
+import { getFavoritePokemons, isFavoritePokemon } from './pokedex';
 
-export function makeRequest(url: string, method?: RequestInit['method']) {
-  return fetch(url, { method }).then((res) => res.json());
-}
+export const makeRequest = (url: string, method?: RequestInit['method']) =>
+  fetch(url, { method }).then((res) => res.json());
 
-export function getPokemons(limit: number = 151) {
-  return makeRequest(`${BASE_URL}?limit=${limit}`);
-}
+export const getPokemons = (limit: number = 151) =>
+  makeRequest(`${BASE_URL}?limit=${limit}`);
 
 export async function fetchPokemons() {
   const { results }: { results: BasePokemon[] } = await getPokemons();
   const pokemons = await Promise.all(
     results.map(async (result) => await makeRequest(result.url)),
   );
-  return pokemons as Pokemons;
+  const favoritesPokemons = getFavoritePokemons(pokemons);
+  return pokemons.map((p) => ({
+    ...p,
+    favorite: isFavoritePokemon(p, favoritesPokemons),
+  })) as Pokemons;
 }

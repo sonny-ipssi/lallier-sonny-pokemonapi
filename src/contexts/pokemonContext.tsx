@@ -1,16 +1,25 @@
+import { LS_POKEDEX_KEY } from 'constants/local-storage';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { fetchPokemons } from 'utils/api';
+import {
+  getFavoritePokemons,
+  isFavoritePokemon,
+  removeLSFromKey,
+  storeFavoritePokemons,
+} from 'utils/pokedex';
 
 type PokemonContextType = {
   pokemons: Pokemons;
-  toggleStatus: (pokemon: Pokemon) => void;
   isLoading: boolean;
+  toggleStatus: (pokemon: Pokemon) => void;
+  clearPokemons: () => void;
 };
 
 const iPokemonContextState: PokemonContextType = {
   pokemons: [],
-  toggleStatus: () => {},
   isLoading: true,
+  toggleStatus: () => {},
+  clearPokemons: () => {},
 };
 
 export const PokemonContext =
@@ -24,23 +33,40 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
     iPokemonContextState.isLoading,
   );
 
-  // const toggleStatus = (task: Task) => {
-  //   setPokemons((_todoList) => {
-  //     const todoListCopy = [..._todoList];
+  const toggleStatus = (pokemon: Pokemon) => {
+    setPokemons((_pokemons) => {
+      const pokemonsCopy = [..._pokemons];
 
-  //     const todoItemIndex = todoListCopy.findIndex((t) => t.id === task.id);
-  //     const todoItem = todoListCopy[todoItemIndex];
+      const pokemonIndex = pokemonsCopy.findIndex((t) => t.id === pokemon.id);
+      const pokemonItem = pokemonsCopy[pokemonIndex];
 
-  //     if (todoItemIndex !== -1) {
-  //       todoListCopy[todoItemIndex] = {
-  //         ...todoItem,
-  //         completed: !todoItem.completed,
-  //       };
-  //     }
+      if (pokemonIndex !== -1) {
+        pokemonsCopy[pokemonIndex] = {
+          ...pokemonItem,
+          favorite: !pokemonItem.favorite,
+        };
+      }
 
-  //     return todoListCopy;
-  //   });
-  // };
+      const favoritePokemons = getFavoritePokemons(pokemons);
+      const newFavoritesPokemons = [...favoritePokemons];
+      if (!isFavoritePokemon(pokemon, favoritePokemons)) {
+        newFavoritesPokemons.push(pokemon);
+      } else {
+        const pokemonIndex = newFavoritesPokemons.findIndex(
+          (p) => p.id === pokemon.id,
+        );
+        newFavoritesPokemons.splice(pokemonIndex, 1);
+      }
+
+      storeFavoritePokemons(newFavoritesPokemons);
+      return pokemonsCopy;
+    });
+  };
+
+  const clearPokemons = () => {
+    removeLSFromKey(LS_POKEDEX_KEY);
+    setPokemons([]);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -56,8 +82,9 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
     <PokemonContext.Provider
       value={{
         pokemons,
-        toggleStatus: iPokemonContextState.toggleStatus,
         isLoading,
+        toggleStatus,
+        clearPokemons,
       }}
     >
       {isLoading && <p>Chargement des pokémons</p>}
