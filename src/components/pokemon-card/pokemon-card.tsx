@@ -78,7 +78,15 @@ export default function PokemonCard({
       )}
       <PokemonName>{pokemon.name}</PokemonName>
       <FavoriteBtn onClick={toggleFavorite}>
-        {pokemon.favorite ? <FaStar color='yellow' /> : <FaRegStar />}
+        <img
+          src='/pokeball.png'
+          alt='Pokeball'
+          style={{
+            width: '24px',
+            height: '24px',
+            filter: pokemon.favorite ? 'none' : 'brightness(60%) saturate(60%)',
+          }}
+        />
       </FavoriteBtn>
     </PokemonCardStyle>
   );
