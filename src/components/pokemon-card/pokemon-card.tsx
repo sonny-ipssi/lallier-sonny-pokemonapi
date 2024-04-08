@@ -4,6 +4,7 @@ import usePokemons from 'hooks/usePokemons';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import '../../styles/pokeball-animation.css';
+import PokemonThumbnail from './pokemon-thumbnail';
 
 const PokemonCardStyle = styled.li({
   position: 'relative',
@@ -21,11 +22,6 @@ const PokemonCardStyle = styled.li({
     backgroundColor: styleVars.blue,
     transform: 'scale(1.05)',
   },
-});
-
-const PokemonThumbnail = styled.img({
-  height: 'auto',
-  maxWidth: '100%',
 });
 
 const PokemonName = styled.p({

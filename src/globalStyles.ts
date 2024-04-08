@@ -100,7 +100,7 @@ export const cssReset = css({
       top: '40px',
       left: '265px',
       textTransform: 'uppercase',
-      fontSize: '1.5em',
+      fontSize: '1em',
     },
 
     '& .pokemon-id': {
