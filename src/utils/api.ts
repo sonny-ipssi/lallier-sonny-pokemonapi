@@ -18,3 +18,6 @@ export async function fetchPokemons() {
     favorite: isFavoritePokemon(p, favoritesPokemons),
   })) as Pokemons;
 }
+
+export const getPokemonThumnailUrl = (pokemon: Pokemon) =>
+  `https://raw.githubusercontent.com/monikode/pokedex/master/assets/pokemon/${pokemon.id}.png`;

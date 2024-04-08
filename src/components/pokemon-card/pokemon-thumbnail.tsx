@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import SpinLoader from 'components/loader/sprin-loader';
 import { styleVars } from 'globalStyles';
@@ -19,7 +20,7 @@ const PokemonThumbnailLoader = styled.div({
   position: 'absolute',
   top: '50%',
   left: '50%',
-  backgroundColor: styleVars.darkBlue,
+  backgroundColor: 'transparent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -43,6 +44,7 @@ export default function PokemonThumbnail(
       <PokemonThumbnailStyle
         onLoad={() => setLoaded(true)}
         {...props}
+        css={[!loaded && css({ opacity: 0 })]}
       />
       {!loaded && (
         <PokemonThumbnailLoader

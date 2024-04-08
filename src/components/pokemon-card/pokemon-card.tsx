@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { styleVars } from 'globalStyles';
 import usePokemons from 'hooks/usePokemons';
 import { useState } from 'react';
-import { FaRegStar, FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import '../../styles/pokeball-animation.css';
 import PokemonThumbnail from './pokemon-thumbnail';
 
@@ -25,8 +25,9 @@ const PokemonCardStyle = styled.li({
 });
 
 const PokemonName = styled.p({
-  margin: 0,
+  textTransform: 'capitalize',
   color: styleVars.white,
+  margin: 0,
 });
 
 const FavoriteBtn = styled.button({
@@ -53,13 +54,7 @@ const PokemonId = styled.p({
 
 const POKEBALL_ANIMATION_DELAY = 7_000;
 
-export default function PokemonCard({
-  pokemon,
-  onSelectPokemon,
-}: {
-  pokemon: Pokemon;
-  onSelectPokemon: (value: Pokemon) => void;
-}) {
+export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
   const { toggleStatus } = usePokemons();
   const [caught, setCaught] = useState(false);
 
@@ -73,32 +68,34 @@ export default function PokemonCard({
   };
 
   return (
-    <PokemonCardStyle onClick={() => onSelectPokemon(pokemon)}>
-      {caught ? (
-        <div className='pokeball'></div>
-      ) : (
-        <PokemonThumbnail
-          src={pokemon.sprites.front_default}
-          alt={`${pokemon.name}'s front sprite`}
-          height={96}
-          width={96}
-        />
-      )}
-      <PokemonName>
-        {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
-      </PokemonName>
-      <PokemonId>#{pokemon.id.toString().padStart(3, '0')}</PokemonId>
-      <FavoriteBtn onClick={toggleFavorite}>
-        <img
-          src='/pokeball.png'
-          alt='Pokeball'
-          style={{
-            width: '24px',
-            height: '24px',
-            filter: pokemon.favorite ? 'none' : 'brightness(60%) saturate(60%)',
-          }}
-        />
-      </FavoriteBtn>
-    </PokemonCardStyle>
+    <Link to={`/pokemon/${pokemon.id}`}>
+      <PokemonCardStyle>
+        {caught ? (
+          <div className='pokeball' />
+        ) : (
+          <PokemonThumbnail
+            src={pokemon.sprites.front_default}
+            alt={`${pokemon.name}'s front sprite`}
+            height={96}
+            width={96}
+          />
+        )}
+        <PokemonName>{pokemon.name}</PokemonName>
+        <PokemonId>#{pokemon.id.toString().padStart(3, '0')}</PokemonId>
+        <FavoriteBtn onClick={toggleFavorite}>
+          <img
+            src='/pokeball.png'
+            alt='Pokeball'
+            style={{
+              width: '24px',
+              height: '24px',
+              filter: pokemon.favorite
+                ? 'none'
+                : 'brightness(60%) saturate(60%)',
+            }}
+          />
+        </FavoriteBtn>
+      </PokemonCardStyle>
+    </Link>
   );
 }

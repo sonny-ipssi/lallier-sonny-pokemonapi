@@ -9,26 +9,15 @@ const PokemonListStyle = styled.ul({
   flexWrap: 'wrap',
 });
 
-interface PokemonListProps {
-  pokemons: Pokemons;
-  setSelectedPokemon: (value: Pokemon) => void;
-}
-function PokemonList({ pokemons, setSelectedPokemon }: PokemonListProps) {
-  const handleSelectPokemon = (value: Pokemon) => {
-    setSelectedPokemon(value);
-  };
-
-  return (
-    <PokemonListStyle>
-      {pokemons.map((pokemon) => (
-        <PokemonCard
-          pokemon={pokemon}
-          onSelectPokemon={handleSelectPokemon}
-          key={pokemon.id}
-        />
-      ))}
-    </PokemonListStyle>
-  );
-}
+const PokemonList = ({ pokemons }: { pokemons: Pokemons }) => (
+  <PokemonListStyle>
+    {pokemons.map((pokemon) => (
+      <PokemonCard
+        pokemon={pokemon}
+        key={pokemon.id}
+      />
+    ))}
+  </PokemonListStyle>
+);
 
 export default PokemonList;

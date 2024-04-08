@@ -20,7 +20,7 @@ interface Sprites {
 }
 
 interface Pokemon {
-  abilities: any[];
+  abilities: Ability[];
   base_experience: number;
   forms: any[];
   game_indices: any[];
@@ -35,6 +35,7 @@ interface Pokemon {
   types: Type[];
   species: Species;
   sprites: Sprites;
+  weight: number;
   other: any;
   versions: any;
   favorite: boolean;
@@ -46,6 +47,15 @@ interface Type {
     name: string;
     url: string;
   };
+}
+
+interface Ability {
+  ability: {
+    name: string;
+    url: string;
+  };
+  is_hidden: boolean;
+  slot: number;
 }
 
 type Pokemons = Pokemon[];
